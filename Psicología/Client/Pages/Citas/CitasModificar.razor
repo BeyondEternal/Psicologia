@@ -1,0 +1,70 @@
+﻿@page "/citas/editar/{Id:int}"
+@using Psicología.Shared.Model;
+@inject HttpClient http
+@inject NavigationManager navigator
+<h3>Modificar cita</h3>
+<EditForm Model="cita" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label class="form-label" for="appointment">Fecha y hora de la cita:</label>
+        <InputDate Min="@dateParsed" class="form-control" id="appointment" @bind-Value="cita.Appointment" />
+        <ValidationMessage For="@(() => cita.Appointment)" />
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="duration">Duración de la cita (en horas):</label>
+        <InputNumber class="form-control" id="duration" @bind-Value="cita.Duration" />
+        <ValidationMessage For="@(() => cita.Duration)" />
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="frequency">Sesiones por mes:</label>
+        <InputNumber class="form-control" id="frequency" @bind-Value="cita.Frequency" />
+        <ValidationMessage For="@(() => cita.Frequency)" />
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="patient">Paciente:</label>
+        <InputSelect class="form-control" id="patient" @bind-Value="cita.IdPaciente">
+            <option value="">Seleccionar paciente</option>
+            @foreach (var patient in pacientes)
+            {
+                <option value="@patient.Id">@patient.Name</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => cita.IdPaciente)" />
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="therapist">Terapeuta:</label>
+        <InputSelect class="form-control" id="therapist" @bind-Value="cita.IdTherapist">
+            <option value="">Seleccionar terapeuta</option>
+            @foreach (var therapist in terapeutas)
+            {
+                <option value="@therapist.Id">@therapist.Name</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => cita.IdTherapist)" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-outline-success mt-4">Guardar</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Cita cita = new Cita();
+    private List<Terapeuta> terapeutas = new List<Terapeuta>();
+    private List<Paciente> pacientes = new List<Paciente>();
+    private string dateParsed { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        dateParsed = DateTime.Now.ToString("yyyy-MM-dd");
+        cita = await http.GetFromJsonAsync<Cita>($"api/citas/{Id}");
+        pacientes = await http.GetFromJsonAsync<List<Paciente>>("api/pacientes");
+        terapeutas = await http.GetFromJsonAsync<List<Terapeuta>>("api/terapeutas");
+    }
+    private async void HandleValidSubmit()
+    {
+        await http.PutAsJsonAsync("api/citas", cita);
+        navigator.NavigateTo("/citas");
+    }
+}

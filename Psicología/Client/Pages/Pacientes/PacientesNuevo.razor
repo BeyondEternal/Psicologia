@@ -1,0 +1,62 @@
+﻿@page "/pacientes/nuevo"
+@using Psicología.Shared.Model;
+@inject HttpClient http;
+@inject NavigationManager navigator;
+
+<h3>Agregar paciente</h3>
+<EditForm Model="paciente" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label class="form-label" for="pacient">Nombre del paciente</label>
+        <InputText class="form-control" id="pacientName" @bind-Value="paciente.Name" />
+        <ValidationMessage For="@(()=> paciente.Name)" />
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="pacientBirthday">Birthday</label>
+        <InputDate Max="@dateParsed" class="form-control" id="pacientBirthday" @bind-Value="paciente.Birthday" />
+        <ValidationMessage For="@(()=> paciente.Birthday)" />
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="pacientGender">Género</label>
+        <InputSelect class="form-control" id="pacientGender" @bind-Value="paciente.Gender">
+            <option value=""></option>
+            <option value="@Gender.Hombre">Hombre</option>
+            <option value="@Gender.Mujer">Mujer</option>
+            <option value="@Gender.NoEspecificado">No especificado</option>
+        </InputSelect>
+        <ValidationMessage For="@(() => paciente.Gender)" />
+    </div>    
+    <div class="form-group">
+        <label class="form-label" for="pacientEmail">E-mail</label>
+        <InputText class="form-control" id="pacientEmail" @bind-Value="paciente.Email" />
+        <ValidationMessage For="@(() => paciente.Email)" />
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="pacientPhone">Teléfono</label>
+        <InputText class="form-control" id="pacientPhone" @bind-Value="paciente.Phone" />
+        <ValidationMessage For="@(() => paciente.Phone)" />
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="pacientDescription">Síntomas del paciente</label>
+        <InputTextArea class="form-control" id="pacientDescription" @bind-Value="paciente.Description"/>
+        <ValidationMessage For="@(()=> paciente.Description)" />
+    </div>
+    <div class="form-group">
+        <button class="btn btn-outline-success mt-4" type="submit">Agregar paciente</button>
+    </div>
+</EditForm>
+
+@code {
+    private Paciente paciente = new Paciente();
+    private string dateParsed { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        dateParsed = DateTime.Now.ToString("yyyy-MM-dd");
+    }
+    private async void HandleValidSubmit()
+    {
+        await http.PostAsJsonAsync("api/pacientes", paciente);
+        navigator.NavigateTo("/pacientes");
+    }
+}

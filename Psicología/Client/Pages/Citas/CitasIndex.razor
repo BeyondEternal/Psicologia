@@ -1,0 +1,70 @@
+﻿@page "/citas"
+@inject HttpClient http
+@inject NavigationManager navigate
+@using Psicología.Shared.Model;
+
+<h3>Agendar Cita</h3>
+<button class="btn btn-outline-primary" @onclick="Agregar"><span class="oi oi-plus"> Nueva Cita</span></button>
+@if (agendarCita == null)
+{
+        <h1>Cargando datos...</h1>
+}
+else if (agendarCita.Count == 0)
+{
+        <h1>No existen personas registradas</h1>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Duración</th>
+                <th>Frecuencia (días por mes)</th>
+                <th>Id del paciente</th>
+                <th>Id del terapeuta</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cita in agendarCita)
+            {
+                <tr>
+                    <td>@cita.Appointment</td>
+                    <td>@cita.Duration</td>
+                    <td>@cita.Frequency</td>
+                    <td>@cita.IdPaciente</td>
+                    <td>@cita.IdTherapist</td>
+                    <td>
+                        <button class="btn-sm btn-info" @onclick="(()=>Modificar(cita.Id))">Modificar</button>
+                        <button class="btn-sm btn-danger" @onclick="(()=>Eliminar(cita))">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Cita> agendarCita;
+    private List<Terapeuta> terapeutasDisponibles;
+    private List<Paciente> pacientesRegistrados;
+
+    protected override async Task OnInitializedAsync()
+    {
+        agendarCita = await http.GetFromJsonAsync<List<Cita>>("api/citas");
+    }
+
+    private void Agregar()
+    {
+        navigate.NavigateTo("/citas/nueva");
+    }
+    private void Modificar(int id)
+    {
+        navigate.NavigateTo($"/citas/editar/{id}");
+    }
+    private async Task Eliminar(Cita unaCita)
+    {
+        await http.DeleteAsync($"api/citas/{unaCita.Id}");
+        agendarCita.Remove(unaCita);
+    }
+}

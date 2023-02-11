@@ -1,0 +1,69 @@
+﻿@page "/pacientes"
+@inject HttpClient http
+@inject NavigationManager navigate
+@using Psicología.Shared.Model;
+<h3>Pacientes</h3>
+<button class="btn btn-outline-primary" @onclick="Agregar"><span class="oi oi-plus"> Agregar paciente</span></button>
+@if (agregarPaciente == null)
+{
+    <h1>Cargando datos...</h1>
+}
+else if (agregarPaciente.Count == 0)
+{
+    <h1>No existen personas registradas</h1>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Fecha de nacimiento</th>
+                <th>Género</th>
+                <th>E-mail</th>
+                <th>Teléfono</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var paciente in agregarPaciente)
+            {
+                <tr>
+                    <td>@paciente.Name</td>
+                    <td>@paciente.Birthday</td>
+                    <td>@paciente.Gender</td>
+                    <td>@paciente.Email</td>
+                    <td>@paciente.Phone</td>
+                    <td>@paciente.Description</td>
+                    <td>
+                        <button class="btn-sm btn-info" @onclick="(()=>Modificar(paciente.Id))">Modificar</button>
+                        <button class="btn-sm btn-danger" @onclick="(()=>Eliminar(paciente))">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Paciente> agregarPaciente;
+
+    protected override async Task OnInitializedAsync()
+    {
+        agregarPaciente = await http.GetFromJsonAsync<List<Paciente>>("api/pacientes");
+    }
+
+    private void Agregar()
+    {
+        navigate.NavigateTo("/pacientes/nuevo");
+    }
+    private void Modificar(int id)
+    {
+        navigate.NavigateTo($"/pacientes/editar/{id}");
+    }
+    private async Task Eliminar(Paciente unPaciente)
+    {
+        await http.DeleteAsync($"api/pacientes/{unPaciente.Id}");
+        agregarPaciente.Remove(unPaciente);
+    }
+}
