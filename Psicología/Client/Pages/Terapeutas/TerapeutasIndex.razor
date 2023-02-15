@@ -1,55 +1,66 @@
 ﻿@page "/terapeutas"
 @inject HttpClient http
 @inject NavigationManager navigate
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using Microsoft.AspNetCore.Components.Authorization
 @using Psicología.Shared.Model;
 
-<h3>Terapeutas</h3>
-<button class="btn btn-outline-primary" @onclick="Agregar"><span class="oi oi-plus"> Agregar terapeuta</span></button>
-@if (agregarTerapeuta == null)
-{
-    <h1>Cargando datos...</h1>
-}
-else if (agregarTerapeuta.Count == 0)
-{
-    <h1>No existen personas registradas</h1>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Género</th>
-                <th>Especialidad</th>
-                <th>E-mail</th>
-                <th>Teléfono</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var terapeuta in agregarTerapeuta)
-            {
+
+    <h3>Terapeutas</h3>
+    <button class="btn btn-outline-primary" @onclick="Agregar"><span class="oi oi-plus"> Agregar terapeuta</span></button>
+    @if (agregarTerapeuta == null)
+    {
+        <h1>Cargando datos...</h1>
+    }
+    else if (agregarTerapeuta.Count == 0)
+    {
+        <h1>No existen personas registradas</h1>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@terapeuta.Name</td>
-                    <td>@terapeuta.Gender</td>
-                    <td>@terapeuta.Speciallity</td>
-                    <td>@terapeuta.Email</td>
-                    <td>@terapeuta.Phone</td>
-                    <td>
-                        <button class="btn-sm btn-info" @onclick="(()=>Modificar(terapeuta.Id))">Modificar</button>
-                        <button class="btn-sm btn-danger" @onclick="(()=>Eliminar(terapeuta))">Eliminar</button>
-                    </td>
+                    <th>Nombre</th>
+                    <th>Género</th>
+                    <th>Especialidad</th>
+                    <th>E-mail</th>
+                    <th>Teléfono</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach (var terapeuta in agregarTerapeuta)
+                {
+                    <tr>
+                        <td>@terapeuta.Name</td>
+                        <td>@terapeuta.Gender</td>
+                        <td>@terapeuta.Speciallity</td>
+                        <td>@terapeuta.Email</td>
+                        <td>@terapeuta.Phone</td>
+                        <AuthorizeView>
+                            <Authorized>
+                                <td>
+                                    <button class="btn-sm btn-info" @onclick="(()=>Modificar(terapeuta.Id))">Modificar</button>
+                                    <button class="btn-sm btn-danger" @onclick="(()=>Eliminar(terapeuta))">Eliminar</button>
+                                </td>
+                            </Authorized>
+                        </AuthorizeView>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+ }
 
 @code {
-    private List<Terapeuta> agregarTerapeuta;
+    private AuthenticationState? authenticationState;
+
+    private List<Terapeuta>? agregarTerapeuta;
 
     protected override async Task OnInitializedAsync()
     {
         agregarTerapeuta = await http.GetFromJsonAsync<List<Terapeuta>>("api/terapeutas");
+        authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
     }
 
     private void Agregar()
