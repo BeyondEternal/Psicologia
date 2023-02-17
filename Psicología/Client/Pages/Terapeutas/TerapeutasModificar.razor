@@ -1,8 +1,8 @@
 ﻿@page "/terapeutas/editar/{Id:int}"
 @using Psicología.Shared.Model;
 @attribute [Authorize]
-@inject HttpClient http;
-@inject NavigationManager navigator;
+@inject HttpClient http
+@inject NavigationManager navigator
 
 <h3>Modificar terapeuta</h3>
 <EditForm Model="terapeuta" OnValidSubmit="HandleValidSubmit">
