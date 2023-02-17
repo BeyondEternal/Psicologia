@@ -1,50 +1,51 @@
-﻿    @page "/terapeutas/nuevo"
-    @using Psicología.Shared.Model;
-    @inject HttpClient http;
-    @inject NavigationManager navigator;
+﻿@page "/terapeutas/nuevo"
+@using Psicología.Shared.Model;
+@attribute [Authorize]
+@inject HttpClient http;
+@inject NavigationManager navigator;
 
-    <h3>Agregar terapeuta</h3>
-    <EditForm Model="terapeuta" OnValidSubmit="HandleValidSubmit">
-        <DataAnnotationsValidator />
-        <div class="form-group">
-            <label class="form-label" for="therapistName">Nombre del terapeuta</label>
-            <InputText class="form-control" id="therapistName" @bind-Value="terapeuta.Name" />
-            <ValidationMessage For="@(()=> terapeuta.Name)" />
-        </div>
-        <div class="form-group">
-            <label class="form-label" for="therapistGender">Género</label>
-            <InputSelect class="form-control" id="therapistGender" @bind-Value="terapeuta.Gender">
-                <option value=""></option>
-                <option value="@Gender.Hombre">Hombre</option>
-                <option value="@Gender.Mujer">Mujer</option>
-                <option value="@Gender.NoEspecificado">No especificado</option>
-            </InputSelect>
-            <ValidationMessage For="@(() => terapeuta.Gender)" />
-        </div>
-        <div class="form-group">
-            <label class="form-label" for="therapistSpeciallity">Especialidad</label>
-            <InputText class="form-control" id="therapistSpeciallity" @bind-Value="terapeuta.Speciallity" />
-            <ValidationMessage For="@(() => terapeuta.Speciallity)" />
-        </div>
-        <div class="form-group">
-            <label class="form-label" for="therapistEmail">E-mail</label>
-            <InputText class="form-control" id="therapistEmail" @bind-Value="terapeuta.Email" />
-            <ValidationMessage For="@(() => terapeuta.Email)" />
-        </div>
-        <div class="form-group">
-            <label class="form-label" for="therapistPhone">Teléfono</label>
-            <InputText class="form-control" id="therapistPhone" @bind-Value="terapeuta.Phone" />
-            <ValidationMessage For="@(() => terapeuta.Phone)" />
-        </div>
-        <button class="btn btn-outline-success mt-4" type="submit">Agregar terapeuta</button>
-    </EditForm>
+<h3>Agregar terapeuta</h3>
+<EditForm Model="terapeuta" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label class="form-label" for="therapistName">Nombre del terapeuta</label>
+        <InputText class="form-control" id="therapistName" @bind-Value="terapeuta.Name" />
+        <ValidationMessage For="@(()=> terapeuta.Name)" />
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="therapistGender">Género</label>
+        <InputSelect class="form-control" id="therapistGender" @bind-Value="terapeuta.Gender">
+            <option value=""></option>
+            <option value="@Gender.Hombre">Hombre</option>
+            <option value="@Gender.Mujer">Mujer</option>
+            <option value="@Gender.NoEspecificado">No especificado</option>
+        </InputSelect>
+        <ValidationMessage For="@(() => terapeuta.Gender)" />
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="therapistSpeciallity">Especialidad</label>
+        <InputText class="form-control" id="therapistSpeciallity" @bind-Value="terapeuta.Speciallity" />
+        <ValidationMessage For="@(() => terapeuta.Speciallity)" />
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="therapistEmail">E-mail</label>
+        <InputText class="form-control" id="therapistEmail" @bind-Value="terapeuta.Email" />
+        <ValidationMessage For="@(() => terapeuta.Email)" />
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="therapistPhone">Teléfono</label>
+        <InputText class="form-control" id="therapistPhone" @bind-Value="terapeuta.Phone" />
+        <ValidationMessage For="@(() => terapeuta.Phone)" />
+    </div>
+    <button class="btn btn-outline-success mt-4" type="submit">Agregar terapeuta</button>
+</EditForm>
 
-    @code {
-        private Terapeuta terapeuta = new Terapeuta();
+@code {
+    private Terapeuta terapeuta = new Terapeuta();
 
-        private async void HandleValidSubmit()
-        {
-            await http.PostAsJsonAsync("api/terapeutas", terapeuta);
-            navigator.NavigateTo("/terapeutas");
-        }
+    private async void HandleValidSubmit()
+    {
+        await http.PostAsJsonAsync("api/terapeutas", terapeuta);
+        navigator.NavigateTo("/terapeutas");
     }
+}

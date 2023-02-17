@@ -32,6 +32,7 @@ namespace Psicología.Server.Authentication
 
             /* Generating JWT Token */
             var tokenExpiryTimeStamp = DateTime.Now.AddMinutes(JWT_TOKEN_VALIDITY_MINS);
+            var notBeforeTimeStamp = DateTime.Now;
             var tokenKey = Encoding.ASCII.GetBytes(JWT_SECURITY_KEY);
             var claimsIdentity = new ClaimsIdentity(new List<Claim>
                 {
@@ -45,6 +46,7 @@ namespace Psicología.Server.Authentication
             {
                 Subject = claimsIdentity,
                 Expires = tokenExpiryTimeStamp,
+                NotBefore = notBeforeTimeStamp,
                 SigningCredentials = signingCredentials
             };
 

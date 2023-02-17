@@ -35,10 +35,14 @@ else
                     <td>@paciente.Email</td>
                     <td>@paciente.Phone</td>
                     <td>@paciente.Description</td>
-                    <td>
-                        <button class="btn-sm btn-info" @onclick="(()=>Modificar(paciente.Id))">Modificar</button>
-                        <button class="btn-sm btn-danger" @onclick="(()=>Eliminar(paciente))">Eliminar</button>
-                    </td>
+                    <AuthorizeView>
+                        <Authorized>
+                            <td>
+                                <button class="btn-sm btn-info" @onclick="(()=>Modificar(paciente.Id))">Modificar</button>
+                                <button class="btn-sm btn-danger" @onclick="(()=>Eliminar(paciente))">Eliminar</button>
+                            </td>
+                        </Authorized>
+                    </AuthorizeView>
                 </tr>
             }
         </tbody>

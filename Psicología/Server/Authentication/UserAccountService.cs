@@ -10,8 +10,7 @@ namespace Psicología.Server.Authentication
         {
             _userAccountList = new List<UserAccount>
             {
-                new UserAccount{ UserName = "admin", Password = "admin", Role = "Administrator" },
-                new UserAccount{ UserName = "user", Password = "user", Role = "User" }
+                new UserAccount{ UserName = "admin", Password = "admin", Role = "Administrator" }
             };
         }
 
