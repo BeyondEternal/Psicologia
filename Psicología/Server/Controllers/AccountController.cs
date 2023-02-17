@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Psicología.Server.Authentication;
+using Psicología.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Psicología.Server.Authentication;
@@ -11,6 +13,7 @@ namespace Psicología.Server.Controllers
     public class AccountController : ControllerBase
     {
         private UserAccountService _userAccountService;
+
         public AccountController(UserAccountService userAccountService)
         {
             _userAccountService = userAccountService;
@@ -23,14 +26,10 @@ namespace Psicología.Server.Controllers
         {
             var jwtAuthenticationManager = new JwtAuthenticationManager(_userAccountService);
             var userSession = jwtAuthenticationManager.GenerateJwtToken(loginRequest.UserName, loginRequest.Password);
-            if(userSession is null)
-            {
+            if (userSession is null)
                 return Unauthorized();
-            }
             else
-            {
                 return userSession;
-            }
         }
     }
 }

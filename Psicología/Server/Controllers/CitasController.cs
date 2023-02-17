@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Psicología.Server.Data;
 using Psicología.Shared.Model;
 
 namespace Psicología.Server.Controllers

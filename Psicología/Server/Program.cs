@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Psicología.Server.Authentication;
+using Psicología.Server.Data;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,8 +27,8 @@ builder.Services.AddAuthentication(o =>
         ValidateAudience = false
     };
 });
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddSingleton<UserAccountService>();
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

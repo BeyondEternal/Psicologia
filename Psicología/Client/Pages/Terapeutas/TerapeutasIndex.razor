@@ -1,4 +1,5 @@
 ﻿@page "/terapeutas"
+@attribute [Authorize]
 @inject HttpClient http
 @inject NavigationManager navigate
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -50,7 +51,7 @@
             </tbody>
         </table>
     }
- }
+ 
 
 @code {
     private AuthenticationState? authenticationState;

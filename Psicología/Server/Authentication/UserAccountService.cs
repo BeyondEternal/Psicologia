@@ -6,11 +6,12 @@ namespace Psicología.Server.Authentication
     {
         private List<UserAccount> _userAccountList;
 
-        public UserAccountService() 
+        public UserAccountService()
         {
             _userAccountList = new List<UserAccount>
             {
-                new UserAccount { UserName = "admin", Password = "admin", Role = "Adminstrator" }
+                new UserAccount{ UserName = "admin", Password = "admin", Role = "Administrator" },
+                new UserAccount{ UserName = "user", Password = "user", Role = "User" }
             };
         }
 
@@ -18,6 +19,5 @@ namespace Psicología.Server.Authentication
         {
             return _userAccountList.FirstOrDefault(x => x.UserName == userName);
         }
-
     }
 }
