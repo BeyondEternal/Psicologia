@@ -3,7 +3,11 @@
 @inject NavigationManager navigate
 @using Psicología.Shared.Model;
 <h3>Pacientes</h3>
-<button class="btn btn-outline-primary" @onclick="Agregar"><span class="oi oi-plus"> Agregar paciente</span></button>
+<AuthorizeView>
+    <Authorized>
+        <button class="btn btn-outline-primary" @onclick="Agregar"><span class="oi oi-plus"> Agregar paciente</span></button>
+    </Authorized>
+</AuthorizeView>
 @if (agregarPaciente == null)
 {
     <h1>Cargando datos...</h1>
