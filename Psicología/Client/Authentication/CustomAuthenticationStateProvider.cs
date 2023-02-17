@@ -9,7 +9,7 @@ namespace Psicología.Client.Authentication
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
         private readonly ISessionStorageService _sessionStorage;
-        private ClaimsPrincipal _anonymous = new ClaimsPrincipal(new ClaimsIdentity());
+        private ClaimsPrincipal _anonymous = new (new ClaimsIdentity());
         public CustomAuthenticationStateProvider(ISessionStorageService sessionStorage)
         {
             _sessionStorage = sessionStorage;
