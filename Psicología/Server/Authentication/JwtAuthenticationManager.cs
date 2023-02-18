@@ -10,7 +10,7 @@ namespace Psicología.Server.Authentication
 {
     public class JwtAuthenticationManager
     {
-        public const string JWT_SECURITY_KEY = "yPkCqn4kSWLtaJwXvN2jGzpQRyTZ3gdXkt7FeBJP";
+        public const string JWT_SECURITY_KEY = "ubq5QLdrDvupXDEfUmC0lLu3FB0KliJDRdnMPzp5uMwoDkopUN";
         private const int JWT_TOKEN_VALIDITY_MINS = 20;
 
         private UserAccountService _userAccountService;
