@@ -1,4 +1,5 @@
 ﻿@using Psicología.Client.Authentication;
+@using Microsoft.AspNetCore.Components.Authorization;
 @inherits LayoutComponentBase
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager navManager
@@ -12,10 +13,10 @@
         <div class="top-row px-4">
             <AuthorizeView>
                 <Authorized>
-                    <a @onclick="Logout" href="javascript:void(0)" class="btn btn-secondary oi oi-account-logout"> Logout</a>
+                    <button @onclick="Logout" href="javascript:void(0)"> Logout</button>
                 </Authorized>
                 <NotAuthorized>
-                    <a class="btn btn-secondary oi oi-account-login" href="login"> Login</a>
+                    <button onclick="location.href='login'">Login</button>
                 </NotAuthorized>
             </AuthorizeView>
         </div>

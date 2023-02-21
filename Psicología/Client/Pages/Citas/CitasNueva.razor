@@ -1,6 +1,7 @@
 ﻿@page "/citas/nueva"
+@using Psicología.Client.Authentication;
 @using Psicología.Shared.Model;
-@attribute [Authorize]
+@using System.Net.Http.Headers;
 @inject HttpClient http;
 @inject NavigationManager navigator;
 
@@ -50,6 +51,7 @@
 </EditForm>
 
 @code {
+    [Inject] private CustomAuthenticationStateProvider AuthenticationStateProvider { get; set; }
     private Cita cita = new Cita();
     private List<Terapeuta> terapeutas = new List<Terapeuta>();
     private List<Paciente> pacientes = new List<Paciente>();
@@ -64,7 +66,8 @@
 
     private async void HandleValidSubmit()
     {
-
+        var token = await AuthenticationStateProvider.GetToken();
+        http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
         await http.PostAsJsonAsync("api/citas", cita);
         navigator.NavigateTo("/citas");
     }

@@ -9,17 +9,19 @@ namespace Psicología.Client.Authentication
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
         private readonly ISessionStorageService _sessionStorage;
-        private ClaimsPrincipal _anonymous = new (new ClaimsIdentity());
+        private ClaimsPrincipal _anonymous = new ClaimsPrincipal(new ClaimsIdentity());
+
         public CustomAuthenticationStateProvider(ISessionStorageService sessionStorage)
         {
             _sessionStorage = sessionStorage;
         }
+
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             try
             {
                 var userSession = await _sessionStorage.ReadEncryptedItemAsync<UserSession>("UserSession");
-                if (userSession == null) 
+                if (userSession == null)
                     return await Task.FromResult(new AuthenticationState(_anonymous));
                 var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
                 {
@@ -38,7 +40,8 @@ namespace Psicología.Client.Authentication
         public async Task UpdateAuthenticationState(UserSession? userSession)
         {
             ClaimsPrincipal claimsPrincipal;
-            if(userSession != null)
+
+            if (userSession != null)
             {
                 claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
                 {
@@ -46,13 +49,14 @@ namespace Psicología.Client.Authentication
                     new Claim(ClaimTypes.Role, userSession.Role)
                 }));
                 userSession.ExpiryTimeStamp = DateTime.Now.AddSeconds(userSession.ExpiresIn);
-                await _sessionStorage.SaveItemEncriptedAsycn("UserSession", userSession);
+                await _sessionStorage.SaveItemEncryptedAsync("UserSession", userSession);
             }
             else
             {
                 claimsPrincipal = _anonymous;
-                await _sessionStorage.RemoveItemAsync("UserSesion");
+                await _sessionStorage.RemoveItemAsync("UserSession");
             }
+
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
         }
 
@@ -63,15 +67,12 @@ namespace Psicología.Client.Authentication
             try
             {
                 var userSession = await _sessionStorage.ReadEncryptedItemAsync<UserSession>("UserSession");
-                if (userSession != null && DateTime.Now < userSession.ExpiryTimeStamp) 
-                {
+                if (userSession != null && DateTime.Now < userSession.ExpiryTimeStamp)
                     result = userSession.Token;
-                }
             }
-            catch
-            {
-            }
-                return result;
+            catch { }
+
+            return result;
         }
     }
 }

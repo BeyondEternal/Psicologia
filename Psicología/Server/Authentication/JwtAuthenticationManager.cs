@@ -1,6 +1,4 @@
-﻿using Psicología.Shared;
-using Microsoft.IdentityModel.Tokens;
-using Psicología.Server.Authentication;
+﻿using Microsoft.IdentityModel.Tokens;
 using Psicología.Shared.Model;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

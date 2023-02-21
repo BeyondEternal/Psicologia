@@ -7,27 +7,37 @@
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager navManager
 
-<div class="row">
-    <div class="col-lg-4 offset-lg-4 pt-4 pb-4 border">
-        <div class="mb-3 text-center">
-            <h3>LOGIN</h3>
+<div class="container">
+    <center>
+        <div class="card">
+            <a class="login">Log in</a>
+            <div class="inputBox">
+                <input @bind="loginRequest.UserName" type="text" required="required">
+                <span class="user">Username</span>
+            </div>
+
+            <div class="inputBox">
+                <input @bind="loginRequest.Password" @ref="textInput" @onkeydown="HandleKeyDown" type="password" required="required">
+                <span>Password</span>
+            </div>
+
+            <button @onclick="Authenticate" class="enter">Enter</button>
+
         </div>
-        <div class="mb-3">
-            <label>User Name</label>
-            <input @bind="loginRequest.UserName" class="form-control" placeholder="User Name" />
-        </div>
-        <div class="mb-3">
-            <label>Password</label>
-            <input @bind="loginRequest.Password" type="password" class="form-control" placeholder="Password" />
-        </div>
-        <div class="mb-3 d-grid gap-2">
-            <button @onclick="Authenticate" class="btn btn-primary">Login</button>
-        </div>
-    </div>
+    </center>
 </div>
 
 @code {
     private LoginRequest loginRequest = new LoginRequest();
+    private ElementReference textInput;
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await Authenticate();
+        }
+    }
 
     private async Task Authenticate()
     {

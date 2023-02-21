@@ -26,6 +26,7 @@ namespace Psicología.Server.Controllers
 
         // GET: api/Citas/5
         [HttpGet("{id}")]
+
         public async Task<ActionResult<Cita>> GetCita(int id)
         {
             var cita = await _context.Citas.FindAsync(id);

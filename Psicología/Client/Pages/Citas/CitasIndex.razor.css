@@ -1,0 +1,226 @@
+﻿.icon-btn {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #cdcdcd;
+    background: white;
+    border-radius: 25px;
+    overflow: hidden;
+    position: relative;
+    transition: width 0.2s ease-in-out;
+    font-weight: 500;
+    font-family: inherit;
+}
+
+.btn-txt {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2em;
+    color: #000;
+}
+.add-btn:hover {
+    width: 120px;
+}
+
+.add-btn::before,
+.add-btn::after {
+    transition: width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+    content: "";
+    position: absolute;
+    height: 4px;
+    width: 10px;
+    top: calc(50% - 2px);
+    background: seagreen;
+}
+
+.add-btn::after {
+    right: 14px;
+    overflow: hidden;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.add-btn::before {
+    left: 14px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.icon-btn:focus {
+    outline: none;
+}
+
+.btn-txt {
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.add-btn:hover::before,
+.add-btn:hover::after {
+    width: 4px;
+    border-radius: 2px;
+}
+
+.add-btn:hover .btn-txt {
+    opacity: 1;
+}
+
+.add-icon::after,
+.add-icon::before {
+    transition: all 0.2s ease-in-out;
+    content: "";
+    position: absolute;
+    height: 20px;
+    width: 2px;
+    top: calc(50% - 10px);
+    background: seagreen;
+    overflow: hidden;
+}
+
+.add-icon::before {
+    left: 22px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.add-icon::after {
+    right: 22px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.add-btn:hover .add-icon::before {
+    left: 15px;
+    height: 4px;
+    top: calc(50% - 2px);
+}
+
+.add-btn:hover .add-icon::after {
+    right: 15px;
+    height: 4px;
+    top: calc(50% - 2px);
+}
+
+
+.edit-btn {
+    width: 150px;
+    height: 2em;
+    cursor: pointer;
+    display: inline;
+    align-items: center;
+    background: red;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+    background: #228DE6;
+}
+
+.edit-btn, .edit-btn span {
+transition: 200ms;
+}
+
+.edit-btn .text {
+    transform: translateX(35px);
+    color: white;
+    font-weight: bold;
+}
+
+.edit-btn .icon {
+    position: absolute;
+    border-left: 1px solid #1B1BE6;
+    transform: translateX(10px);
+    height: 24px;
+    width: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-btn svg {
+    width: 15px;
+    fill: #eee;
+}
+
+.edit-btn:hover {
+    background: #228DFF;
+}
+
+.edit-btn:hover .text {
+    color: transparent;
+}
+
+.edit-btn:hover .icon {
+    width: 20px;
+    border-left: none;
+    transform: translateX(-35px);
+}
+
+.edit-btn:focus {
+    outline: none;
+}
+
+.edit-btn:active .icon svg {
+    transform: scale(0.8);
+}
+
+.rm-btn {
+    width: 150px;
+    height: 2em;
+    cursor: pointer;
+    display: inline;
+    align-items: center;
+    background: red;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+    background: #e62222;
+}
+
+.rm-btn, .rm-btn span {
+transition: 200ms;
+}
+
+.rm-btn .text {
+    transform: translateX(35px);
+    color: white;
+    font-weight: bold;
+}
+
+.rm-btn .icon {
+    position: absolute;
+    border-left: 1px solid #c41b1b;
+    transform: translateX(10px);
+    height: 24px;
+    width: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rm-btn svg {
+    width: 15px;
+    fill: #eee;
+}
+
+.rm-btn:hover {
+    background: #ff3636;
+}
+
+    .rm-btn:hover .text {
+        color: transparent;
+    }
+
+    .rm-btn:hover .icon {
+        width: 20px;
+        border-left: none;
+        transform: translateX(-35px);
+    }
+
+.rm-btn:focus {
+    outline: none;
+}
+
+.rm-btn:active .icon svg {
+    transform: scale(0.8);
+}
