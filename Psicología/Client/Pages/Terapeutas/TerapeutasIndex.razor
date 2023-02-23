@@ -94,6 +94,6 @@ else
     private async Task Eliminar(Terapeuta unTerapeuta)
     {
         await http.DeleteAsync($"api/terapeutas/{unTerapeuta.Id}");
-        agregarTerapeuta.Remove(unTerapeuta);
+        agregarTerapeuta!.Remove(unTerapeuta);
     }
 }

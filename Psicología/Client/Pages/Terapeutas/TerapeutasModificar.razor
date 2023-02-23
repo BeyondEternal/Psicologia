@@ -10,7 +10,7 @@
     <DataAnnotationsValidator />
     <div class="form-group">
         <label class="form-label" for="therapistName">Nombre del terapeuta</label>
-        <InputText class="form-control" id="therapistName" @bind-Value="terapeuta.Name" />
+        <InputText class="form-control" id="therapistName" @bind-Value="terapeuta!.Name" />
         <ValidationMessage For="@(()=> terapeuta.Name)" />
     </div>
     <div class="form-group">
@@ -38,24 +38,24 @@
         <InputText class="form-control" id="therapistPhone" @bind-Value="terapeuta.Phone" />
         <ValidationMessage For="@(() => terapeuta.Phone)" />
     </div>
-    <button class="btn btn-outline-success mt-4" type="submit">Agregar terapeuta</button>
+    <button class="btn btn-outline-success mt-4" type="submit">Modificar terapeuta</button>
 </EditForm>
 
 @code {
-    [Inject] private CustomAuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    [Inject] private CustomAuthenticationStateProvider? AuthenticationStateProvider { get; set; }
     [Parameter]
     public int Id { get; set; }
-    private Terapeuta terapeuta = new Terapeuta();
+    private Terapeuta? terapeuta = new Terapeuta();
 
     protected override async Task OnInitializedAsync()
     {
-    terapeuta = await http.GetFromJsonAsync<Terapeuta>($"api/terapeutas/{Id}");
+        terapeuta = await http.GetFromJsonAsync<Terapeuta>($"api/terapeutas/{Id}");
     }
     private async void HandleValidSubmit()
     {
-        var token = await AuthenticationStateProvider.GetToken();
+        var token = await AuthenticationStateProvider!.GetToken();
         http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
-        await http.PutAsJsonAsync("api/terapeutas", terapeuta);
+        await http.PutAsJsonAsync($"api/terapeutas/{Id}", terapeuta);
         navigator.NavigateTo("/terapeutas");
     }
     }

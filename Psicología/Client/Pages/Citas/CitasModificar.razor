@@ -9,7 +9,7 @@
     <DataAnnotationsValidator />
     <div class="form-group">
         <label class="form-label" for="appointment">Fecha y hora de la cita:</label>
-        <InputDate Min="@dateParsed" class="form-control" id="appointment" @bind-Value="cita.Appointment" />
+        <InputDate Min="@dateParsed" class="form-control" id="appointment" @bind-Value="cita!.Appointment" />
         <ValidationMessage For="@(() => cita.Appointment)" />
     </div>
     <div class="form-group">
@@ -26,7 +26,7 @@
         <label class="form-label" for="patient">Paciente:</label>
         <InputSelect class="form-control" id="patient" @bind-Value="cita.IdPaciente">
             <option value="">Seleccionar paciente</option>
-            @foreach (var patient in pacientes)
+            @foreach (var patient in pacientes!)
             {
                 <option value="@patient.Id">@patient.Name</option>
             }
@@ -37,7 +37,7 @@
         <label class="form-label" for="therapist">Terapeuta:</label>
         <InputSelect class="form-control" id="therapist" @bind-Value="cita.IdTherapist">
             <option value="">Seleccionar terapeuta</option>
-            @foreach (var therapist in terapeutas)
+            @foreach (var therapist in terapeutas!)
             {
                 <option value="@therapist.Id">@therapist.Name</option>
             }
@@ -50,13 +50,13 @@
 </EditForm>
 
 @code {
-    [Inject] private CustomAuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    [Inject] private CustomAuthenticationStateProvider? AuthenticationStateProvider { get; set; }
     [Parameter]
     public int Id { get; set; }
-    private Cita cita = new Cita();
-    private List<Terapeuta> terapeutas = new List<Terapeuta>();
-    private List<Paciente> pacientes = new List<Paciente>();
-    private string dateParsed { get; set; }
+    private Cita? cita = new Cita();
+    private List<Terapeuta>? terapeutas = new List<Terapeuta>();
+    private List<Paciente>? pacientes = new List<Paciente>();
+    private string? dateParsed { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -67,9 +67,9 @@
     }
     private async void HandleValidSubmit()
     {
-        var token = await AuthenticationStateProvider.GetToken();
+        var token = await AuthenticationStateProvider!.GetToken();
         http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
-        await http.PutAsJsonAsync("api/citas", cita);
+        await http.PutAsJsonAsync($"api/citas/{Id}", cita);
         navigator.NavigateTo("/citas");
     }
 }

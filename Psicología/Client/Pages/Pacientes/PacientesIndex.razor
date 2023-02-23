@@ -9,7 +9,7 @@
             <div class="add-icon"></div>
             <div class="btn-txt">Agregar</div>
         </button>
-        </Authorized>
+    </Authorized>
 </AuthorizeView>
 @if (agregarPaciente == null)
 {
@@ -70,7 +70,7 @@ else
 }
 
 @code {
-    private List<Paciente> agregarPaciente;
+    private List<Paciente>? agregarPaciente;
 
     protected override async Task OnInitializedAsync()
     {
@@ -88,6 +88,6 @@ else
     private async Task Eliminar(Paciente unPaciente)
     {
         await http.DeleteAsync($"api/pacientes/{unPaciente.Id}");
-        agregarPaciente.Remove(unPaciente);
+        agregarPaciente!.Remove(unPaciente);
     }
 }

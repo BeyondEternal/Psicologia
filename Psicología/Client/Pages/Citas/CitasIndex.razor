@@ -85,12 +85,12 @@ private void Agregar()
 }
 private async void Modificar(int id)
 {
-    var authMessage = await authenticationState;
+    var authMessage = await authenticationState!;
     navigate.NavigateTo($"/citas/editar/{id}");
 }
 private async Task Eliminar(Cita unaCita)
 {
     await http.DeleteAsync($"api/citas/{unaCita.Id}");
-    agendarCita.Remove(unaCita);
+    agendarCita!.Remove(unaCita);
 }
 }

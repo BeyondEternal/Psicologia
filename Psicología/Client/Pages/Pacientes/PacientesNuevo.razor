@@ -10,7 +10,7 @@
     <DataAnnotationsValidator />
     <div class="form-group">
         <label class="form-label" for="pacient">Nombre del paciente</label>
-        <InputText class="form-control" id="pacientName" @bind-Value="paciente.Name" />
+        <InputText class="form-control" id="pacientName" @bind-Value="paciente!.Name" />
         <ValidationMessage For="@(()=> paciente.Name)" />
     </div>
     <div class="form-group">
@@ -49,9 +49,9 @@
 </EditForm>
 
 @code {
-    [Inject] private CustomAuthenticationStateProvider AuthenticationStateProvider { get; set; }
-    private Paciente paciente = new Paciente();
-    private string dateParsed { get; set; }
+    [Inject] private CustomAuthenticationStateProvider? AuthenticationStateProvider { get; set; }
+    private Paciente? paciente = new Paciente();
+    private string? dateParsed { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -59,7 +59,7 @@
     }
     private async void HandleValidSubmit()
     {
-        var token = await AuthenticationStateProvider.GetToken();
+        var token = await AuthenticationStateProvider!.GetToken();
         http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
         await http.PostAsJsonAsync("api/pacientes", paciente);
         navigator.NavigateTo("/pacientes");

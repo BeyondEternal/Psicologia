@@ -39,7 +39,7 @@ namespace Psicología.Server.Authentication
                 });
             var signingCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(tokenKey),
-                SecurityAlgorithms.HmacSha256Signature);
+                SecurityAlgorithms.HmacSha256);
             var securityTokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = claimsIdentity,
@@ -60,6 +60,7 @@ namespace Psicología.Server.Authentication
                 Token = token,
                 ExpiresIn = (int)tokenExpiryTimeStamp.Subtract(DateTime.Now).TotalSeconds
             };
+            Console.WriteLine(token.ToString());
             return userSession;
         }
     }

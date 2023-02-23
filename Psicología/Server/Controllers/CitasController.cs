@@ -42,7 +42,7 @@ namespace Psicología.Server.Controllers
         // PUT: api/Citas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize]
         public async Task<IActionResult> PutCita(int id, Cita cita)
         {
             if (id != cita.Id)
@@ -74,7 +74,7 @@ namespace Psicología.Server.Controllers
         // POST: api/Citas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Administrator")]
+        [Authorize]
         public async Task<ActionResult<Cita>> PostCita(Cita cita)
         {
             _context.Citas.Add(cita);
@@ -85,7 +85,7 @@ namespace Psicología.Server.Controllers
 
         // DELETE: api/Citas/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize]
         public async Task<IActionResult> DeleteCita(int id)
         {
             var cita = await _context.Citas.FindAsync(id);

@@ -42,12 +42,12 @@
 </EditForm>
 
 @code {
-    [Inject] private CustomAuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    [Inject] private CustomAuthenticationStateProvider? AuthenticationStateProvider { get; set; }
     private Terapeuta terapeuta = new Terapeuta();
 
     private async void HandleValidSubmit()
     {
-        var token = await AuthenticationStateProvider.GetToken();
+        var token = await AuthenticationStateProvider!.GetToken();
         http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
         await http.PostAsJsonAsync("api/terapeutas", terapeuta);
         navigator.NavigateTo("/terapeutas");
