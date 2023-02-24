@@ -11,33 +11,26 @@
     <center>
         <div class="card">
             <a class="login">Log in</a>
-            <div class="inputBox">
-                <input @bind="loginRequest.UserName" type="text" required="required">
-                <span class="user">Username</span>
-            </div>
-
-            <div class="inputBox">
-                <input @bind="loginRequest.Password" @ref="textInput" @onkeydown="HandleKeyDown" type="password" required="required">
-                <span>Password</span>
-            </div>
-
-            <button @onclick="Authenticate" class="enter">Enter</button>
-
+            <EditForm Model="loginRequest" OnValidSubmit="Authenticate">
+                <DataAnnotationsValidator />
+                <div class="inputBox">
+                    <input @bind="loginRequest.UserName" type="text" required="required">
+                    <span class="user">Username</span>
+                    <ValidationMessage For="@(() => loginRequest.UserName)" />
+                </div>
+                <div class="inputBox">
+                    <input @bind="loginRequest.Password" type="password" required="required">
+                    <span>Password</span>
+                    <ValidationMessage For="@(() => loginRequest.Password)" />
+                </div>
+                <button type="submit" @onclick="Authenticate" class="enter">Enter</button>
+            </EditForm>
         </div>
     </center>
 </div>
 
 @code {
     private LoginRequest loginRequest = new LoginRequest();
-    private ElementReference textInput;
-
-    private async Task HandleKeyDown(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter")
-        {
-            await Authenticate();
-        }
-    }
 
     private async Task Authenticate()
     {

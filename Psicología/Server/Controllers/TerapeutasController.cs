@@ -41,7 +41,6 @@ namespace Psicología.Server.Controllers
         // PUT: api/Terapeutas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize]
 
         public async Task<IActionResult> PutTerapeuta(int id, Terapeuta terapeuta)
         {
@@ -74,7 +73,6 @@ namespace Psicología.Server.Controllers
         // POST: api/Terapeutas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize]
 
         public async Task<ActionResult<Terapeuta>> PostTerapeuta(Terapeuta terapeuta)
         {
@@ -86,7 +84,6 @@ namespace Psicología.Server.Controllers
 
         // DELETE: api/Terapeutas/5
         [HttpDelete("{id}")]
-        [Authorize]
         public async Task<IActionResult> DeleteTerapeuta(int id)
         {
             var terapeuta = await _context.Terapeutas.FindAsync(id);

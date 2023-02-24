@@ -4,6 +4,8 @@
 @using System.Net.Http.Headers;
 @inject HttpClient http;
 @inject NavigationManager navigator;
+@attribute [Authorize]
+
 
 <h3>Agendar cita</h3>
 <EditForm Model="cita" OnValidSubmit="HandleValidSubmit">

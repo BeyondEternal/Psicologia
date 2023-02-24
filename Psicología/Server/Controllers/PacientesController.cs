@@ -41,7 +41,6 @@ namespace Psicología.Server.Controllers
         // PUT: api/Pacientes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize]
         public async Task<IActionResult> PutPaciente(int id, Paciente paciente)
         {
             if (id != paciente.Id)
@@ -73,7 +72,6 @@ namespace Psicología.Server.Controllers
         // POST: api/Pacientes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize]
         public async Task<ActionResult<Paciente>> PostPaciente(Paciente paciente)
         {
             _context.Pacientes.Add(paciente);
@@ -84,7 +82,6 @@ namespace Psicología.Server.Controllers
 
         // DELETE: api/Pacientes/5
         [HttpDelete("{id}")]
-        [Authorize]
         public async Task<IActionResult> DeletePaciente(int id)
         {
             var paciente = await _context.Pacientes.FindAsync(id);

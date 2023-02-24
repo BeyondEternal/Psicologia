@@ -29,22 +29,21 @@ namespace Psicología.Server.Authentication
                 return null;
 
             /* Generating JWT Token */
-            var tokenExpiryTimeStamp = DateTime.Now.AddMinutes(JWT_TOKEN_VALIDITY_MINS);
-            var notBeforeTimeStamp = DateTime.Now;
+            var tokenExpiryTimeStamp = DateTime.UtcNow.AddMinutes(JWT_TOKEN_VALIDITY_MINS);
+            //var notBeforeTimeStamp = DateTime.Now;
             var tokenKey = Encoding.ASCII.GetBytes(JWT_SECURITY_KEY);
             var claimsIdentity = new ClaimsIdentity(new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, userAccount.UserName),
-                    new Claim(ClaimTypes.Role, userAccount.Role)
+                    new Claim(ClaimTypes.Name, userAccount.UserName!),
+                    new Claim(ClaimTypes.Role, userAccount.Role!)
                 });
             var signingCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(tokenKey),
-                SecurityAlgorithms.HmacSha256);
+                SecurityAlgorithms.HmacSha256Signature);
             var securityTokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = claimsIdentity,
                 Expires = tokenExpiryTimeStamp,
-                NotBefore = notBeforeTimeStamp,
                 SigningCredentials = signingCredentials
             };
 
@@ -55,12 +54,11 @@ namespace Psicología.Server.Authentication
             /* Returning the User Session object */
             var userSession = new UserSession
             {
-                UserName = userAccount.UserName,
-                Role = userAccount.Role,
+                UserName = userAccount.UserName!,
+                Role = userAccount.Role!,
                 Token = token,
                 ExpiresIn = (int)tokenExpiryTimeStamp.Subtract(DateTime.Now).TotalSeconds
             };
-            Console.WriteLine(token.ToString());
             return userSession;
         }
     }

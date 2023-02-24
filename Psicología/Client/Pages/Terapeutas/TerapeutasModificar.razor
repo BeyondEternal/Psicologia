@@ -4,6 +4,7 @@
 @using System.Net.Http.Headers;
 @inject HttpClient http
 @inject NavigationManager navigator
+@attribute [Authorize]
 
 <h3>Modificar terapeuta</h3>
 <EditForm Model="terapeuta" OnValidSubmit="HandleValidSubmit">

@@ -12,7 +12,7 @@ using Psicología.Server.Data;
 namespace Psicología.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230220054748_Initial")]
+    [Migration("20230223031025_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

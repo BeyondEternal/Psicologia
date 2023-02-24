@@ -20,7 +20,7 @@ namespace Psicología.Client.Extensions
             var itemJsonBytes = Convert.FromBase64String(base64Json);
             var itemJson = Encoding.UTF8.GetString(itemJsonBytes);
             var item = JsonSerializer.Deserialize<T>(itemJson);
-            return item;
+            return item!;
         }
     }
 }

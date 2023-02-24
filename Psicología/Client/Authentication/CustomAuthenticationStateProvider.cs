@@ -25,8 +25,8 @@ namespace Psicología.Client.Authentication
                     return await Task.FromResult(new AuthenticationState(_anonymous));
                 var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, userSession.UserName),
-                    new Claim(ClaimTypes.Role, userSession.Role)
+                    new Claim(ClaimTypes.Name, userSession.UserName!),
+                    new Claim(ClaimTypes.Role, userSession.Role!)
                 }, "JwtAuth"));
 
                 return await Task.FromResult(new AuthenticationState(claimsPrincipal));
@@ -45,8 +45,8 @@ namespace Psicología.Client.Authentication
             {
                 claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, userSession.UserName),
-                    new Claim(ClaimTypes.Role, userSession.Role)
+                    new Claim(ClaimTypes.Name, userSession.UserName!),
+                    new Claim(ClaimTypes.Role, userSession.Role!)
                 }));
                 userSession.ExpiryTimeStamp = DateTime.Now.AddSeconds(userSession.ExpiresIn);
                 await _sessionStorage.SaveItemEncryptedAsync("UserSession", userSession);
@@ -72,7 +72,7 @@ namespace Psicología.Client.Authentication
             }
             catch { }
 
-            return result;
+            return result!;
         }
     }
 }

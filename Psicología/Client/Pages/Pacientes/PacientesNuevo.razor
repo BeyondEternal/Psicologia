@@ -4,6 +4,8 @@
 @using System.Net.Http.Headers;
 @inject HttpClient http;
 @inject NavigationManager navigator;
+@attribute [Authorize]
+
 
 <h3>Agregar paciente</h3>
 <EditForm Model="paciente" OnValidSubmit="HandleValidSubmit">
@@ -60,7 +62,7 @@
     private async void HandleValidSubmit()
     {
         var token = await AuthenticationStateProvider!.GetToken();
-        http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+        http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         await http.PostAsJsonAsync("api/pacientes", paciente);
         navigator.NavigateTo("/pacientes");
     }
